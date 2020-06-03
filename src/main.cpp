@@ -44,7 +44,9 @@
 #include <QQmlEngine>
 #include <QQmlComponent>
 #include <QQmlFileSelector>
-#include "paystation.h"
+#include "paystation/paystation.h"
+#include "categorymodel.h"
+#include "itemmodel.h"
 
 int main(int argc, char *argv[])
 {
@@ -53,10 +55,13 @@ int main(int argc, char *argv[])
     app.setOrganizationDomain("truetech-systems.com");
 
     qmlRegisterType<PayStation>("LaCuisine", 1, 0, "PayStation");
+    qmlRegisterType<CategoryModel>("LaCuisine", 1, 0, "CategoryModel");
+    qmlRegisterType<ItemModel>("LaCuisine", 1, 0, "ItemModel");
 
-//    QQmlEngine engine;
-//    QQmlComponent component(&engine, QUrl("qrc:/main.qml"));
-
-    QQmlApplicationEngine engine(QUrl("qrc:/main.qml"));
+    QQmlApplicationEngine engine;
+    engine.addImportPath("qrc:/qml");
+    engine.addImportPath("qrc:/qml/components");
+    engine.addImportPath("qrc:/qml/pages");
+    engine.load(QUrl(QStringLiteral("qrc:/qml/lacuisine.qml")));
     return app.exec();
 }

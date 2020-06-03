@@ -4,8 +4,14 @@ WelcomePanelForm {
 
     qrCodeGetStartedButton {
         onClicked: {
-            console.log("BUTTON CLICKED")
+            console.log("BUTTON CLICKED");
         }
+    }
 
+    touchStartArea {
+        onClicked: {
+            stackView.push("qrc:/qml/pages/SelectMenuPanel.qml");
+            console.log("GET STARTER");
+        }
     }
 }

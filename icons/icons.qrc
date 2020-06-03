@@ -1,2 +1,17 @@
-<!DOCTYPE RCC>
-<RCC version="1.0"/>
+<RCC>
+    <qresource prefix="/icons">
+        <file>lacuisine/20x20/menu.png</file>
+        <file>lacuisine/20x20@2/menu@2x.png</file>
+        <file>lacuisine/20x20@3/menu@3x.png</file>
+        <file>lacuisine/20x20@4/menu@4x.png</file>
+        <file>lacuisine/44x44/battery-full.png</file>
+        <file>lacuisine/44x44/wifi-max-level.png</file>
+        <file>_ic_idle_abrir_gaveta_fechado.png</file>
+        <file>ic_idle_acompanhar.png</file>
+        <file>ic_idle_chamar_atendente.png</file>
+        <file>ic_idle_em_aberto.png</file>
+        <file>ic_idle_pagamento.png</file>
+        <file alias="battery_full">battery_full-black-18dp.png</file>
+        <file alias="wifi_high">wifi-black-18dp.png</file>
+    </qresource>
+</RCC>
