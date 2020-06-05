@@ -7,6 +7,7 @@ TARGET = lacuisine
 
 include(src/src.pri)
 include(src/paystation/paystation.pri)
+include(src/gsoap/gsoap.pri)
 
 #qml.files = $$files(*.qml)
 #qml.files += $$files(pages/*.qml)

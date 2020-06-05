@@ -47,6 +47,7 @@
 #include "paystation/paystation.h"
 #include "categorymodel.h"
 #include "itemmodel.h"
+#include "gsoap/soapLacuisineBindingProxy.h"
 
 int main(int argc, char *argv[])
 {
@@ -57,6 +58,17 @@ int main(int argc, char *argv[])
     qmlRegisterType<PayStation>("LaCuisine", 1, 0, "PayStation");
     qmlRegisterType<CategoryModel>("LaCuisine", 1, 0, "CategoryModel");
     qmlRegisterType<ItemModel>("LaCuisine", 1, 0, "ItemModel");
+
+    LacuisineBindingProxy testProxy("http://138.68.29.14:9090");
+    ns1__AccessAuthenticationRequestType authRequest;
+    ns2__AuthenticationType AuthType;
+    AuthType.company = std::string("Chale Paladar");
+    AuthType.credentials = std::string("--@CREDENTIALS FOR COMPANY@--");
+
+    authRequest.AuthRequest = &AuthType;
+
+    ns1__AccessAuthenticationResponseType authResponse;
+    testProxy.AccessAuthentication(&authRequest, authResponse);
 
     QQmlApplicationEngine engine;
     engine.addImportPath("qrc:/qml");
