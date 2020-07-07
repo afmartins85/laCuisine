@@ -35,15 +35,15 @@ QtObject
     id: root
 
     readonly property real refScreenWidth: 800
-    readonly property real refScreenHeight: 580
+    readonly property real refScreenHeight: 600
 
     //Raspi
 //    readonly property real screenWidth: 640
 //    readonly property real screenHeight: 480
 
     //Desktop
-    readonly property real screenWidth: 640
-    readonly property real screenHeight: 480
+    readonly property real screenWidth: 800
+    readonly property real screenHeight: 600
 
     function hscale(size) {
         return Math.round(size * (screenWidth / refScreenWidth))
@@ -69,6 +69,8 @@ QtObject
     readonly property int textSizeVerySmall: tscale(24)
     readonly property int textSizeExtraSmall: tscale(18)
     readonly property int textSizeUltraSmall: tscale(10)
+    readonly property int textSize_8: tscale(8)
+    readonly property int textSize_10: tscale(10)
     readonly property int textSize_12: tscale(12)
 
     readonly property color textColorNormal: "#ffec8b" // lightgoldenrod 1
@@ -132,6 +134,8 @@ QtObject
     readonly property real squareCostWidth: hscale(100)
     readonly property real squareCostHeight: vscale(58)
 
+    readonly property int columnSpacing_2: tscale(2)
+    readonly property int columnSpacing_3: tscale(3)
     readonly property int columnSpacing_5: tscale(5)
     readonly property int columnSpacing_10: tscale(10)
     readonly property int columnSpacing_15: tscale(15)

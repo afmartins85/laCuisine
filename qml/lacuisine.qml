@@ -1,9 +1,9 @@
 import QtQuick 2.12
 import QtQuick.Layouts 1.12
 import QtQuick.Controls 2.12
-import QtQuick.Controls.Imagine 2.12
-import QtQuick.Window 2.12
-import Qt.labs.settings 1.1
+import QtQuick.Controls.Material 2.12
+import Qt.labs.settings 1.0
+import lacuisine.controls 1.0
 import lacuisine.responsive.theme 1.0
 import LaCuisine 1.0
 import "pages"
@@ -32,7 +32,7 @@ ApplicationWindow {
 
     Settings {
         id: settings
-        property string style: "Imagine"
+        property string style: "Material"
     }
 
     Shortcut {

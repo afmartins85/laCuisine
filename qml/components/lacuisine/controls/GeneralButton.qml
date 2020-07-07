@@ -12,6 +12,7 @@ Button {
 
     property alias color: rectButton.color
     property alias colorText: textButton.color
+    property alias fontPxSize: button.font.pixelSize
 
     contentItem: Text {
         id: textButton

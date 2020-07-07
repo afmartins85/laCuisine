@@ -38,42 +38,65 @@
 **
 ****************************************************************************/
 
-#include "qtquickcontrolsapplication.h"
-#include <QtQml/QQmlApplicationEngine>
-#include <QQuickView>
-#include <QQmlEngine>
-#include <QQmlComponent>
-#include <QQmlFileSelector>
-#include "paystation/paystation.h"
 #include "categorymodel.h"
-#include "itemmodel.h"
 #include "gsoap/soapLacuisineBindingProxy.h"
+#include "itemmodel.h"
+#include "paystation/paystation.h"
+#include "qtquickcontrolsapplication.h"
+#include <QQmlComponent>
+#include <QQmlContext>
+#include <QQmlEngine>
+#include <QQmlFileSelector>
+#include <QQuickStyle>
+#include <QQuickView>
+#include <QSettings>
+#include <QtQml/QQmlApplicationEngine>
 
-int main(int argc, char *argv[])
-{
-    QtQuickControlsApplication app(argc, argv);
-    app.setOrganizationName("TrueTech Systems");
-    app.setOrganizationDomain("truetech-systems.com");
+int main(int argc, char *argv[]) {
+  QtQuickControlsApplication::setOrganizationName("TrueTech Systems");
+  QtQuickControlsApplication::setOrganizationDomain("truetech-systems.com");
+  QtQuickControlsApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+  QtQuickControlsApplication app(argc, argv);
 
-    qmlRegisterType<PayStation>("LaCuisine", 1, 0, "PayStation");
-    qmlRegisterType<CategoryModel>("LaCuisine", 1, 0, "CategoryModel");
-    qmlRegisterType<ItemModel>("LaCuisine", 1, 0, "ItemModel");
+  qmlRegisterType<PayStation>("LaCuisine", 1, 0, "PayStation");
+  qmlRegisterType<CategoryModel>("LaCuisine", 1, 0, "CategoryModel");
+  qmlRegisterType<ItemModel>("LaCuisine", 1, 0, "ItemModel");
 
-    LacuisineBindingProxy testProxy("http://138.68.29.14:9090");
-    ns1__AccessAuthenticationRequestType authRequest;
-    ns2__AuthenticationType AuthType;
-    AuthType.company = std::string("Chale Paladar");
-    AuthType.credentials = std::string("--@CREDENTIALS FOR COMPANY@--");
+  QIcon::setThemeName("lacuisine");
 
-    authRequest.AuthRequest = &AuthType;
+  QSettings settings;
+  QString style = QQuickStyle::name();
+  if (!style.isEmpty()) {
+    settings.setValue("style", style);
+  } else {
+    QQuickStyle::setStyle(settings.value("style").toString());
+  }
 
-    ns1__AccessAuthenticationResponseType authResponse;
-    testProxy.AccessAuthentication(&authRequest, authResponse);
+  LacuisineBindingProxy testProxy("https://138.68.29.14:9090");
 
-    QQmlApplicationEngine engine;
-    engine.addImportPath("qrc:/qml");
-    engine.addImportPath("qrc:/qml/components");
-    engine.addImportPath("qrc:/qml/pages");
-    engine.load(QUrl(QStringLiteral("qrc:/qml/lacuisine.qml")));
-    return app.exec();
+  soap_ssl_init();
+  if (soap_ssl_client_context(testProxy.soap, SOAP_SSL_DEFAULT, "/usr/local/share/ca-certificates/lacuisine/client.pem",
+                              "ZIWw3HND$yG6naizADpF", "/usr/local/share/ca-certificates/lacuisine/cacert.pem", NULL,
+                              NULL)) {
+    testProxy.soap_print_fault(stderr);
+    exit(1);
+  }
+
+  ns1__AccessAuthenticationRequestType authRequest;
+  ns2__AuthenticationType AuthType;
+  AuthType.company = std::string("Chale Paladar");
+  AuthType.credentials = std::string("--@CREDENTIALS FOR COMPANY@--");
+
+  authRequest.AuthRequest = &AuthType;
+
+  ns1__AccessAuthenticationResponseType authResponse;
+  testProxy.AccessAuthentication(&authRequest, authResponse);
+
+  QQmlApplicationEngine engine;
+  engine.rootContext()->setContextProperty("availableStyles", QQuickStyle::availableStyles());
+  engine.addImportPath(":/qml");
+  engine.addImportPath(":/qml/components");
+  engine.addImportPath(":/qml/pages");
+  engine.load(QUrl(QStringLiteral("qrc:/qml/lacuisine.qml")));
+  return app.exec();
 }
